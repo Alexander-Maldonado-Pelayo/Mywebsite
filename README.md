@@ -37,6 +37,32 @@ After `npm run seed`:
   (defaults to `cagconstructiona@gmail.com` / `changeme123` — change these!)
 - **Sample customer (dev only):** `customer@example.com` / `password123`
 
+## Deploy (get a public URL your team can open)
+
+The repo includes a Render Blueprint (`render.yaml`) and a `Dockerfile`.
+
+### Easiest: Render.com (free)
+
+1. Go to <https://render.com> and sign up (free) with your GitHub account.
+2. **New + → Blueprint**, then pick this repository.
+3. Render reads `render.yaml` and prompts for `ADMIN_EMAIL` and `ADMIN_PASSWORD` —
+   enter the admin login you want. `JWT_SECRET` is generated for you.
+4. Click **Apply**. In a couple minutes you get a public `https://...onrender.com`
+   URL that works on any phone or computer. Share it with your employees.
+
+The admin account is created automatically on first boot — no manual step.
+
+> Free Render instances sleep when idle and **reset their database on restart**.
+> To keep leads/bookings permanently, use a paid plan with a Disk mounted at
+> `/var/data` and set `DATA_DIR=/var/data`, or move to a managed Postgres DB.
+
+### Anywhere with Docker (Railway, Fly.io, Cloud Run, a VPS)
+
+```bash
+docker build -t cag-construction .
+docker run -p 3000:3000 -e JWT_SECRET=your-secret -v cagdata:/app/data cag-construction
+```
+
 ## Configuration (`.env`)
 
 | Variable | Purpose |

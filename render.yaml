@@ -1,0 +1,34 @@
+# Render.com Blueprint — deploy with one click.
+# 1. Push this repo to GitHub (done).
+# 2. On Render: New + → Blueprint → pick this repo.
+# 3. Render reads this file, asks you for ADMIN_EMAIL / ADMIN_PASSWORD, and deploys.
+# You'll get a public https URL your employees can open from anywhere.
+services:
+  - type: web
+    name: cag-construction
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true # Render generates a strong random secret
+      - key: ADMIN_EMAIL
+        sync: false # you'll be prompted to enter this
+      - key: ADMIN_PASSWORD
+        sync: false # you'll be prompted — choose a strong password
+      # Optional email sending (leave unset to skip):
+      # - key: SMTP_HOST
+      #   sync: false
+      # - key: SMTP_USER
+      #   sync: false
+      # - key: SMTP_PASS
+      #   sync: false
+
+# NOTE: Render's free plan has an ephemeral filesystem, so the SQLite database
+# resets when the service restarts. For a real business that must keep leads,
+# upgrade to a paid plan and add a Disk mounted at /var/data, then set
+# DATA_DIR=/var/data — or migrate to a managed Postgres database.

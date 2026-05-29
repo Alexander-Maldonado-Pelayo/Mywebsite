@@ -60,8 +60,20 @@ function requireAdmin(req, res, next) {
   next();
 }
 
+// Idempotently ensures the admin account from config exists. Safe to call on
+// every boot — makes deployment a single step (no manual seeding required).
+function ensureAdmin(db) {
+  const cfg = require('./config');
+  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(cfg.admin.email);
+  if (existing) return;
+  db.prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)')
+    .run(cfg.admin.name, cfg.admin.email, hashPassword(cfg.admin.password), 'admin');
+  console.log(`[boot] Created admin account: ${cfg.admin.email}`);
+}
+
 module.exports = {
   TOKEN_NAME,
+  ensureAdmin,
   hashPassword,
   verifyPassword,
   signToken,

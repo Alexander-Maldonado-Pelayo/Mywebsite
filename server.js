@@ -6,8 +6,9 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
 const config = require('./src/config');
-const { attachUser } = require('./src/auth');
-require('./src/db'); // initialize schema on boot
+const { attachUser, ensureAdmin } = require('./src/auth');
+const db = require('./src/db'); // initialize schema on boot
+ensureAdmin(db); // make sure the admin account exists
 
 const app = express();
 app.disable('x-powered-by');
