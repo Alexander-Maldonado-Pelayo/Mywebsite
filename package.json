@@ -22,5 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.10.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer": "^25.1.0"
+  }
 }
