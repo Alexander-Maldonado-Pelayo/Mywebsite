@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | CAG Construction LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-card">
+            <h1>CAG Construction</h1>
+            <p class="sub">Sign in to track your projects & bookings</p>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin">Sign In</button>
+                <button class="auth-tab" id="tabRegister">Create Account</button>
+            </div>
+
+            <div class="alert alert-error" id="authError"></div>
+
+            <!-- LOGIN -->
+            <form class="auth-form" id="loginForm">
+                <div><label for="liEmail">Email</label><input type="email" id="liEmail" required></div>
+                <div><label for="liPassword">Password</label><input type="password" id="liPassword" required></div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
+            </form>
+
+            <!-- REGISTER -->
+            <form class="auth-form" id="registerForm" style="display:none;">
+                <div><label for="rgName">Full Name</label><input type="text" id="rgName" required></div>
+                <div><label for="rgEmail">Email</label><input type="email" id="rgEmail" required></div>
+                <div><label for="rgPhone">Phone</label><input type="tel" id="rgPhone"></div>
+                <div><label for="rgPassword">Password (min 8 chars)</label><input type="password" id="rgPassword" minlength="8" required></div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Create Account</button>
+            </form>
+
+            <p class="auth-toggle"><a href="/">← Back to website</a></p>
+        </div>
+    </div>
+
+    <script>
+    'use strict';
+    async function api(path, opts = {}) {
+        const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', ...opts });
+        let data = {}; try { data = await res.json(); } catch {}
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+        return data;
+    }
+    const errEl = document.getElementById('authError');
+    function err(msg) { errEl.textContent = msg; errEl.className = 'alert alert-error show'; }
+    function clearErr() { errEl.className = 'alert alert-error'; }
+
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const tabLogin = document.getElementById('tabLogin');
+    const tabRegister = document.getElementById('tabRegister');
+
+    function activate(which) {
+        clearErr();
+        const login = which === 'login';
+        tabLogin.classList.toggle('active', login);
+        tabRegister.classList.toggle('active', !login);
+        loginForm.style.display = login ? 'flex' : 'none';
+        registerForm.style.display = login ? 'none' : 'flex';
+    }
+    tabLogin.addEventListener('click', () => activate('login'));
+    tabRegister.addEventListener('click', () => activate('register'));
+
+    function go(user) { window.location.href = user.role === 'admin' ? '/admin.html' : '/account.html'; }
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); clearErr();
+        try {
+            const { user } = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({
+                email: document.getElementById('liEmail').value,
+                password: document.getElementById('liPassword').value,
+            }) });
+            go(user);
+        } catch (e2) { err(e2.message); }
+    });
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); clearErr();
+        try {
+            const { user } = await api('/api/auth/register', { method: 'POST', body: JSON.stringify({
+                name: document.getElementById('rgName').value,
+                email: document.getElementById('rgEmail').value,
+                phone: document.getElementById('rgPhone').value,
+                password: document.getElementById('rgPassword').value,
+            }) });
+            go(user);
+        } catch (e2) { err(e2.message); }
+    });
+
+    // If already signed in, skip straight to the right dashboard.
+    api('/api/auth/me').then(({ user }) => { if (user) go(user); }).catch(() => {});
+    </script>
+</body>
+</html>

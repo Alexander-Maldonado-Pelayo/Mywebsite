@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | CAG Construction LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Crect fill='%23000000' width='800' height='400'/%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='200,280 200,120 240,120 240,280'/%3E%3Cpolyline points='280,280 280,60 320,60 320,280'/%3E%3Cpolyline points='360,280 360,160 400,160 400,280'/%3E%3Cpath d='M 120,285 Q 300,340 480,285'/%3E%3C/g%3E%3C/svg%3E" alt="CAG" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Website</a></li>
+                <li><a href="/#book">Book Again</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-cta">Log Out</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dash-page">
+        <div class="dash-head">
+            <div>
+                <h1 id="welcome">My Account</h1>
+                <p class="muted" id="userEmail"></p>
+            </div>
+            <a href="/#book" class="btn btn-primary btn-sm">Book a Consultation</a>
+        </div>
+
+        <div class="panel">
+            <h2>My Projects</h2>
+            <div id="projects"><p class="empty">Loading…</p></div>
+        </div>
+
+        <div class="panel">
+            <h2>My Consultations</h2>
+            <div id="bookings"><p class="empty">Loading…</p></div>
+        </div>
+    </div>
+
+    <script>
+    'use strict';
+    async function api(path, opts = {}) {
+        const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', ...opts });
+        let data = {}; try { data = await res.json(); } catch {}
+        if (res.status === 401) { window.location.href = '/login.html'; throw new Error('Unauthorized'); }
+        if (!res.ok) throw new Error(data.error || 'Request failed.');
+        return data;
+    }
+    const STATUS_ORDER = ['estimate', 'scheduled', 'in_progress', 'completed'];
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const fmtStatus = (s) => esc(s).replace(/_/g, ' ');
+
+    function progressBar(status) {
+        const idx = STATUS_ORDER.indexOf(status);
+        return '<div class="progress-track">' + STATUS_ORDER.map((_, i) =>
+            `<div class="progress-step ${i <= idx ? 'done' : ''}"></div>`).join('') + '</div>';
+    }
+
+    async function loadProjects() {
+        const el = document.getElementById('projects');
+        const { projects } = await api('/api/me/projects');
+        if (!projects.length) { el.innerHTML = '<p class="empty">No projects yet. Once we start work, you\'ll see live progress here.</p>'; return; }
+        el.innerHTML = projects.map((p) => `
+            <div class="project-card">
+                <div class="top">
+                    <div>
+                        <h3>${esc(p.title)}</h3>
+                        <p class="meta">${esc(p.service || '')}${p.address ? ' · ' + esc(p.address) : ''}${p.start_date ? ' · Starts ' + esc(p.start_date) : ''}</p>
+                    </div>
+                    <span class="badge badge-${esc(p.status)}">${fmtStatus(p.status)}</span>
+                </div>
+                ${p.status !== 'cancelled' ? progressBar(p.status) : ''}
+                ${p.description ? `<p class="meta">${esc(p.description)}</p>` : ''}
+                ${p.updates && p.updates.length ? `<ul class="timeline">${p.updates.map((u) => `
+                    <li><div class="when">${esc(u.created_at)}${u.status ? ' · ' + fmtStatus(u.status) : ''}</div>
+                    <div class="note">${esc(u.note)}</div></li>`).join('')}</ul>` : ''}
+            </div>`).join('');
+    }
+
+    async function loadBookings() {
+        const el = document.getElementById('bookings');
+        const { bookings } = await api('/api/me/bookings');
+        if (!bookings.length) { el.innerHTML = '<p class="empty">No consultations booked yet.</p>'; return; }
+        el.innerHTML = `<table><thead><tr><th>Date</th><th>Time</th><th>Service</th><th>Status</th></tr></thead>
+            <tbody>${bookings.map((b) => `<tr>
+                <td>${esc(b.date)}</td><td>${esc(b.time)}</td><td>${esc(b.service || '—')}</td>
+                <td><span class="badge badge-${esc(b.status)}">${fmtStatus(b.status)}</span></td></tr>`).join('')}</tbody></table>`;
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+        e.preventDefault();
+        await api('/api/auth/logout', { method: 'POST' });
+        window.location.href = '/';
+    });
+
+    (async () => {
+        const { user } = await api('/api/auth/me');
+        if (!user) { window.location.href = '/login.html'; return; }
+        if (user.role === 'admin') { window.location.href = '/admin.html'; return; }
+        document.getElementById('welcome').textContent = `Welcome, ${user.name.split(' ')[0]}`;
+        document.getElementById('userEmail').textContent = user.email;
+        loadProjects();
+        loadBookings();
+    })();
+    </script>
+</body>
+</html>

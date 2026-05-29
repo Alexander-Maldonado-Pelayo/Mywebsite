@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | CAG Construction LLC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Crect fill='%23000000' width='800' height='400'/%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='200,280 200,120 240,120 240,280'/%3E%3Cpolyline points='280,280 280,60 320,60 320,280'/%3E%3Cpolyline points='360,280 360,160 400,160 400,280'/%3E%3C/g%3E%3C/svg%3E" alt="CAG" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Website</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-cta">Log Out</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dash-page">
+        <div class="dash-head">
+            <div><h1>Admin Dashboard</h1><p class="muted">CAG Construction LLC</p></div>
+        </div>
+
+        <div class="stat-cards" id="statCards"></div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="leads">Leads</button>
+            <button class="tab" data-tab="bookings">Bookings</button>
+            <button class="tab" data-tab="projects">Projects</button>
+            <button class="tab" data-tab="customers">Customers</button>
+        </div>
+
+        <div class="panel" id="panel"><p class="empty">Loading…</p></div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal">
+            <h2>New Project</h2>
+            <div class="alert alert-error" id="pmError"></div>
+            <form class="modal-form" id="projectForm">
+                <div><label>Customer</label><select id="pmCustomer" required></select></div>
+                <div><label>Title</label><input type="text" id="pmTitle" required></div>
+                <div><label>Service</label><input type="text" id="pmService" placeholder="e.g. Decorative Concrete"></div>
+                <div><label>Address</label><input type="text" id="pmAddress"></div>
+                <div><label>Description</label><textarea id="pmDescription" rows="3"></textarea></div>
+                <div><label>Start Date</label><input type="date" id="pmStart"></div>
+                <div><label>Status</label><select id="pmStatus">
+                    <option value="estimate">Estimate</option><option value="scheduled">Scheduled</option>
+                    <option value="in_progress">In Progress</option><option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option></select></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline btn-sm" id="pmCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Update Modal -->
+    <div class="modal-overlay" id="updateModal">
+        <div class="modal">
+            <h2>Add Project Update</h2>
+            <div class="alert alert-error" id="umError"></div>
+            <form class="modal-form" id="updateForm">
+                <input type="hidden" id="umProjectId">
+                <div><label>Update Note</label><textarea id="umNote" rows="3" required placeholder="What's the latest?"></textarea></div>
+                <div><label>Move Status To (optional)</label><select id="umStatus">
+                    <option value="">— No change —</option>
+                    <option value="estimate">Estimate</option><option value="scheduled">Scheduled</option>
+                    <option value="in_progress">In Progress</option><option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option></select></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline btn-sm" id="umCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Post Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    'use strict';
+    async function api(path, opts = {}) {
+        const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', ...opts });
+        let data = {}; try { data = await res.json(); } catch {}
+        if (res.status === 401) { window.location.href = '/login.html'; throw new Error('Unauthorized'); }
+        if (res.status === 403) { window.location.href = '/'; throw new Error('Forbidden'); }
+        if (!res.ok) throw new Error(data.error || 'Request failed.');
+        return data;
+    }
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const fmtStatus = (s) => esc(s).replace(/_/g, ' ');
+    const panel = document.getElementById('panel');
+
+    const LEAD_STATUSES = ['new', 'contacted', 'quoted', 'won', 'lost'];
+    const BOOKING_STATUSES = ['pending', 'confirmed', 'completed', 'cancelled'];
+    const PROJECT_STATUSES = ['estimate', 'scheduled', 'in_progress', 'completed', 'cancelled'];
+
+    function statusSelect(current, options, onChange) {
+        const sel = document.createElement('select');
+        sel.className = 'inline';
+        options.forEach((o) => {
+            const opt = document.createElement('option');
+            opt.value = o; opt.textContent = o.replace(/_/g, ' ');
+            if (o === current) opt.selected = true;
+            sel.appendChild(opt);
+        });
+        sel.addEventListener('change', () => onChange(sel.value));
+        return sel;
+    }
+
+    async function loadSummary() {
+        const s = await api('/api/admin/summary');
+        const cards = [
+            ['New Leads', s.newLeads], ['Total Leads', s.leads],
+            ['Upcoming Visits', s.upcomingBookings], ['Active Projects', s.activeProjects],
+            ['Customers', s.customers],
+        ];
+        document.getElementById('statCards').innerHTML = cards.map(([cap, num]) =>
+            `<div class="stat-card"><div class="num">${num}</div><div class="cap">${cap}</div></div>`).join('');
+    }
+
+    /* ---- Leads ---- */
+    async function renderLeads() {
+        const { leads } = await api('/api/admin/leads');
+        if (!leads.length) { panel.innerHTML = '<h2>Leads</h2><p class="empty">No leads yet.</p>'; return; }
+        panel.innerHTML = '<h2>Leads</h2><table><thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Service</th><th>Estimate</th><th>Message</th><th>Status</th></tr></thead><tbody></tbody></table>';
+        const tbody = panel.querySelector('tbody');
+        leads.forEach((l) => {
+            const tr = document.createElement('tr');
+            const est = l.estimate_low ? `$${l.estimate_low.toLocaleString()}–$${l.estimate_high.toLocaleString()}` : '—';
+            tr.innerHTML = `<td>${esc(l.created_at)}</td><td>${esc(l.name)}</td>
+                <td>${esc(l.email)}<br>${esc(l.phone || '')}</td><td>${esc(l.service || '—')}</td>
+                <td>${est}</td><td>${esc(l.message || '—')}</td><td></td>`;
+            tr.lastElementChild.appendChild(statusSelect(l.status, LEAD_STATUSES, async (v) => {
+                await api(`/api/admin/leads/${l.id}`, { method: 'PATCH', body: JSON.stringify({ status: v }) });
+                loadSummary();
+            }));
+            tbody.appendChild(tr);
+        });
+    }
+
+    /* ---- Bookings ---- */
+    async function renderBookings() {
+        const { bookings } = await api('/api/admin/bookings');
+        if (!bookings.length) { panel.innerHTML = '<h2>Bookings</h2><p class="empty">No bookings yet.</p>'; return; }
+        panel.innerHTML = '<h2>Bookings</h2><table><thead><tr><th>Date</th><th>Time</th><th>Name</th><th>Contact</th><th>Service</th><th>Address</th><th>Status</th></tr></thead><tbody></tbody></table>';
+        const tbody = panel.querySelector('tbody');
+        bookings.forEach((b) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${esc(b.date)}</td><td>${esc(b.time)}</td><td>${esc(b.name)}</td>
+                <td>${esc(b.email)}<br>${esc(b.phone || '')}</td><td>${esc(b.service || '—')}</td>
+                <td>${esc(b.address || '—')}</td><td></td>`;
+            tr.lastElementChild.appendChild(statusSelect(b.status, BOOKING_STATUSES, async (v) => {
+                await api(`/api/admin/bookings/${b.id}`, { method: 'PATCH', body: JSON.stringify({ status: v }) });
+                loadSummary();
+            }));
+            tbody.appendChild(tr);
+        });
+    }
+
+    /* ---- Projects ---- */
+    async function renderProjects() {
+        const { projects } = await api('/api/admin/projects');
+        panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><h2 style="margin:0;">Projects</h2><button class="btn btn-primary btn-sm" id="newProjectBtn">+ New Project</button></div><div id="projList"></div>';
+        document.getElementById('newProjectBtn').addEventListener('click', openProjectModal);
+        const list = document.getElementById('projList');
+        if (!projects.length) { list.innerHTML = '<p class="empty">No projects yet. Create one to start tracking.</p>'; return; }
+        list.innerHTML = projects.map((p) => `
+            <div class="project-card">
+                <div class="top">
+                    <div><h3>${esc(p.title)}</h3>
+                    <p class="meta">${esc(p.customer_name)} (${esc(p.customer_email)})${p.service ? ' · ' + esc(p.service) : ''}${p.start_date ? ' · ' + esc(p.start_date) : ''}</p></div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span class="badge badge-${esc(p.status)}">${fmtStatus(p.status)}</span>
+                        <button class="btn btn-outline btn-sm" data-update="${p.id}">+ Update</button>
+                    </div>
+                </div>
+                ${p.description ? `<p class="meta">${esc(p.description)}</p>` : ''}
+                ${p.updates && p.updates.length ? `<ul class="timeline">${p.updates.map((u) => `
+                    <li><div class="when">${esc(u.created_at)}${u.status ? ' · ' + fmtStatus(u.status) : ''}</div>
+                    <div class="note">${esc(u.note)}</div></li>`).join('')}</ul>` : '<p class="meta" style="font-style:italic;">No updates yet.</p>'}
+            </div>`).join('');
+        list.querySelectorAll('[data-update]').forEach((btn) =>
+            btn.addEventListener('click', () => openUpdateModal(btn.dataset.update)));
+    }
+
+    /* ---- Customers ---- */
+    async function renderCustomers() {
+        const { customers } = await api('/api/admin/customers');
+        if (!customers.length) { panel.innerHTML = '<h2>Customers</h2><p class="empty">No customers yet.</p>'; return; }
+        panel.innerHTML = `<h2>Customers</h2><table><thead><tr><th>Joined</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+            <tbody>${customers.map((c) => `<tr><td>${esc(c.created_at)}</td><td>${esc(c.name)}</td><td>${esc(c.email)}</td><td>${esc(c.phone || '—')}</td></tr>`).join('')}</tbody></table>`;
+    }
+
+    /* ---- Modals ---- */
+    const projectModal = document.getElementById('projectModal');
+    const updateModal = document.getElementById('updateModal');
+
+    async function openProjectModal() {
+        document.getElementById('pmError').className = 'alert alert-error';
+        document.getElementById('projectForm').reset();
+        const { customers } = await api('/api/admin/customers');
+        const sel = document.getElementById('pmCustomer');
+        sel.innerHTML = customers.length
+            ? customers.map((c) => `<option value="${c.id}">${esc(c.name)} (${esc(c.email)})</option>`).join('')
+            : '<option value="">No customers yet — ask them to register first</option>';
+        projectModal.classList.add('open');
+    }
+    document.getElementById('pmCancel').addEventListener('click', () => projectModal.classList.remove('open'));
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById('pmError');
+        try {
+            await api('/api/admin/projects', { method: 'POST', body: JSON.stringify({
+                user_id: document.getElementById('pmCustomer').value,
+                title: document.getElementById('pmTitle').value,
+                service: document.getElementById('pmService').value,
+                address: document.getElementById('pmAddress').value,
+                description: document.getElementById('pmDescription').value,
+                start_date: document.getElementById('pmStart').value,
+                status: document.getElementById('pmStatus').value,
+            }) });
+            projectModal.classList.remove('open');
+            renderProjects(); loadSummary();
+        } catch (e2) { errEl.textContent = e2.message; errEl.className = 'alert alert-error show'; }
+    });
+
+    function openUpdateModal(id) {
+        document.getElementById('umError').className = 'alert alert-error';
+        document.getElementById('updateForm').reset();
+        document.getElementById('umProjectId').value = id;
+        updateModal.classList.add('open');
+    }
+    document.getElementById('umCancel').addEventListener('click', () => updateModal.classList.remove('open'));
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById('umError');
+        try {
+            await api(`/api/admin/projects/${document.getElementById('umProjectId').value}/updates`, {
+                method: 'POST', body: JSON.stringify({
+                    note: document.getElementById('umNote').value,
+                    status: document.getElementById('umStatus').value,
+                }) });
+            updateModal.classList.remove('open');
+            renderProjects(); loadSummary();
+        } catch (e2) { errEl.textContent = e2.message; errEl.className = 'alert alert-error show'; }
+    });
+    [projectModal, updateModal].forEach((m) => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); }));
+
+    /* ---- Tabs ---- */
+    const renderers = { leads: renderLeads, bookings: renderBookings, projects: renderProjects, customers: renderCustomers };
+    document.querySelectorAll('.tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+            tab.classList.add('active');
+            panel.innerHTML = '<p class="empty">Loading…</p>';
+            renderers[tab.dataset.tab]().catch((e) => { panel.innerHTML = `<p class="empty">${esc(e.message)}</p>`; });
+        });
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+        e.preventDefault();
+        await api('/api/auth/logout', { method: 'POST' });
+        window.location.href = '/';
+    });
+
+    (async () => {
+        const { user } = await api('/api/auth/me');
+        if (!user) { window.location.href = '/login.html'; return; }
+        if (user.role !== 'admin') { window.location.href = '/account.html'; return; }
+        loadSummary();
+        renderLeads();
+    })();
+    </script>
+</body>
+</html>

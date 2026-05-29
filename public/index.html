@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CAG Construction LLC - Colorado Springs' premier contractor for custom decks, framing, drywall, concrete, and decorative concrete. Instant estimates, online booking, and project tracking.">
+    <title>CAG Construction LLC | Colorado Springs Contractor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Crect fill='%23000000' width='800' height='400'/%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='200,280 200,120 240,120 240,280'/%3E%3Cpolyline points='280,280 280,60 320,60 320,280'/%3E%3Cpolyline points='360,280 360,160 400,160 400,280'/%3E%3Cpath d='M 120,285 Q 300,340 480,285'/%3E%3C/g%3E%3Ctext x='400' y='360' font-family='Georgia, serif' font-size='48' font-weight='bold' fill='%23d4af37' text-anchor='middle'%3ECAG | CONSTRUCTION%3C/text%3E%3C/svg%3E" alt="CAG Construction" class="logo-img">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#estimate">Estimate</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#book">Book</a></li>
+                <li id="navAccount"><a href="/login.html">Sign In</a></li>
+                <li><a href="#book" class="nav-cta">Book Consultation</a></li>
+            </ul>
+            <div class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">Colorado Springs' Premier Construction</div>
+            <h1>Crafted with <span>Excellence</span></h1>
+            <p>Custom decks, decorative concrete, framing, drywall, and more. Get an instant ballpark estimate, book a free on-site consultation online, and track your project every step of the way.</p>
+            <div class="hero-buttons">
+                <a href="#estimate" class="btn btn-primary">Get Instant Estimate</a>
+                <a href="tel:7197254350" class="btn btn-outline">📞 (719) 725-4350</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><h3>50+</h3><p>Projects Completed</p></div>
+                <div class="stat"><h3>5 ★</h3><p>Client Rating</p></div>
+                <div class="stat"><h3>100%</h3><p>Satisfaction</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section bg-white" id="services">
+        <div class="section-header">
+            <div class="section-tag">What We Offer</div>
+            <h2>Our Services</h2>
+            <p>Full-service construction solutions tailored to your vision and budget.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card"><div class="service-icon">🏗️</div><h3>Custom Decks</h3><p>Beautiful, durable outdoor living spaces. Wood, composite, and custom designs built to last Colorado's climate.</p></div>
+            <div class="service-card"><div class="service-icon">🏠</div><h3>Framing</h3><p>Precision structural framing for new construction, additions, and remodels. Built right the first time.</p></div>
+            <div class="service-card"><div class="service-icon">🧱</div><h3>Drywall</h3><p>Expert installation, finishing, and repair. Smooth, flawless walls and ceilings for any project.</p></div>
+            <div class="service-card"><div class="service-icon">🪨</div><h3>Concrete</h3><p>Driveways, patios, sidewalks, and foundations. Poured with precision and built to endure.</p></div>
+            <div class="service-card"><div class="service-icon">✨</div><h3>Decorative Concrete</h3><p>Stamped, stained, and colored concrete. Transform ordinary surfaces into stunning outdoor features.</p></div>
+            <div class="service-card"><div class="service-icon">🔨</div><h3>General Construction</h3><p>From small repairs to full renovations. No job too big or too small for our experienced team.</p></div>
+        </div>
+    </section>
+
+    <!-- ESTIMATE CALCULATOR -->
+    <section class="section bg-light" id="estimate">
+        <div class="section-header">
+            <div class="section-tag">Instant Estimate</div>
+            <h2>Ballpark Your Project</h2>
+            <p>Choose a service and size to see an instant price range. No waiting, no pressure.</p>
+        </div>
+        <div class="calculator">
+            <div class="calc-grid">
+                <div class="calc-field">
+                    <label for="calcService">Service</label>
+                    <select id="calcService"></select>
+                </div>
+                <div class="calc-field">
+                    <label for="calcSize">Approx. Size (<span id="calcUnit">sq ft</span>)</label>
+                    <input type="number" id="calcSize" min="0" step="10" value="200">
+                </div>
+            </div>
+            <div class="calc-field" style="margin-top:24px;">
+                <label>Finish / Quality Tier</label>
+                <div class="tier-options" id="calcTiers"></div>
+            </div>
+            <div class="calc-result">
+                <div class="label">Estimated Range</div>
+                <div class="range" id="calcRange">$—</div>
+                <div class="disclaimer">Rough ballpark only. We confirm exact pricing after a free on-site visit.</div>
+                <a href="#book" class="btn btn-primary btn-sm" id="calcBookBtn">Book a Free Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO / GALLERY -->
+    <section class="section bg-dark" id="portfolio">
+        <div class="section-header">
+            <div class="section-tag">Our Work</div>
+            <h2>Recent Projects</h2>
+            <p>Explore our portfolio. Click any project to view it larger.</p>
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="concrete">Concrete</button>
+            <button class="filter-btn" data-filter="decks">Decks</button>
+            <button class="filter-btn" data-filter="framing">Framing</button>
+        </div>
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-close" id="lbClose" aria-label="Close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous">&#10094;</button>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lbImg" alt="">
+            <div class="lightbox-caption">
+                <h3 id="lbTitle"></h3>
+                <p id="lbDesc"></p>
+            </div>
+        </div>
+        <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next">&#10095;</button>
+    </div>
+
+    <!-- WHY US -->
+    <section class="section bg-light" id="why-us">
+        <div class="section-header">
+            <div class="section-tag">Why Choose CAG</div>
+            <h2>The Difference</h2>
+            <p>Here's what sets us apart from the competition.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature"><div class="feature-icon">💰</div><h3>Honest Pricing</h3><p>Transparent quotes with no hidden fees. You know exactly what you're paying before we start.</p></div>
+            <div class="feature"><div class="feature-icon">⚡</div><h3>On-Time Delivery</h3><p>We respect your schedule. Projects completed on time with clear communication every step.</p></div>
+            <div class="feature"><div class="feature-icon">🛡️</div><h3>Licensed & Insured</h3><p>Fully licensed and insured for your protection and peace of mind on every project.</p></div>
+            <div class="feature"><div class="feature-icon">🏆</div><h3>Quality Craftsmanship</h3><p>We take pride in every detail. Our work stands the test of time and speaks for itself.</p></div>
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="section bg-white" id="book">
+        <div class="section-header">
+            <div class="section-tag">Schedule Online</div>
+            <h2>Book a Free Consultation</h2>
+            <p>Pick a day and time that works for you. We'll come out, assess your project, and give you an honest quote.</p>
+        </div>
+        <div class="booking-wrap">
+            <form class="booking-form" id="bookingForm">
+                <div class="alert alert-success" id="bookSuccess"></div>
+                <div class="alert alert-error" id="bookError"></div>
+                <div>
+                    <label for="bkName">Full Name</label>
+                    <input type="text" id="bkName" name="name" required>
+                </div>
+                <div>
+                    <label for="bkEmail">Email</label>
+                    <input type="email" id="bkEmail" name="email" required>
+                </div>
+                <div>
+                    <label for="bkPhone">Phone</label>
+                    <input type="tel" id="bkPhone" name="phone" required>
+                </div>
+                <div>
+                    <label for="bkService">Service</label>
+                    <select id="bkService" name="service" required>
+                        <option value="" disabled selected>Select a service</option>
+                        <option>Custom Decks</option><option>Framing</option><option>Drywall</option>
+                        <option>Concrete</option><option>Decorative Concrete</option><option>General Construction</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="bkAddress">Project Address</label>
+                    <input type="text" id="bkAddress" name="address" placeholder="Street, City">
+                </div>
+                <div>
+                    <label for="bkDate">Preferred Date</label>
+                    <input type="date" id="bkDate" name="date" required>
+                </div>
+                <div>
+                    <label>Available Times</label>
+                    <div class="slots" id="bkSlots"><p class="muted" style="grid-column:1/-1;color:var(--gray);font-size:0.85rem;">Pick a date to see open times.</p></div>
+                    <input type="hidden" id="bkTime" name="time" required>
+                </div>
+                <div>
+                    <label for="bkNotes">Project Details (optional)</label>
+                    <textarea id="bkNotes" name="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="bookSubmit">Confirm Booking →</button>
+            </form>
+            <aside class="booking-aside">
+                <h3>What to Expect</h3>
+                <ul>
+                    <li><span>✓</span> A free, no-obligation on-site visit.</li>
+                    <li><span>✓</span> Honest, transparent pricing — no hidden fees.</li>
+                    <li><span>✓</span> Expert advice on materials and design.</li>
+                    <li><span>✓</span> A written estimate you can trust.</li>
+                    <li><span>✓</span> Create an account to track your project online.</li>
+                </ul>
+                <p style="margin-top:24px;color:rgba(255,255,255,0.7);font-weight:300;font-size:0.9rem;">Prefer to talk? Call <a href="tel:7197254350" style="color:var(--gold);text-decoration:none;font-weight:600;">(719) 725-4350</a></p>
+            </aside>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section bg-light" id="testimonials">
+        <div class="section-header">
+            <div class="section-tag">Client Reviews</div>
+            <h2>What Clients Say</h2>
+            <p>Real feedback from satisfied homeowners and businesses.</p>
+        </div>
+        <div class="testimonials-carousel">
+            <div class="testimonial-card active">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"CAG Construction transformed our backyard with an amazing stamped concrete patio. Carlos and his team were professional, punctual, and the quality exceeded our expectations. Highly recommend!"</p>
+                <div class="testimonial-author">Sarah & Mike Johnson</div>
+                <div class="testimonial-location">Colorado Springs, CO</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"We hired CAG for our deck build and couldn't be happier. Great communication throughout, fair pricing, and outstanding craftsmanship. Will definitely use them again for future projects."</p>
+                <div class="testimonial-author">David Martinez</div>
+                <div class="testimonial-location">Monument, CO</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"Professional, reliable, and skilled. CAG handled our basement framing and drywall perfectly. These guys know what they're doing and take pride in their work. Excellent experience!"</p>
+                <div class="testimonial-author">Jennifer Lee</div>
+                <div class="testimonial-location">Fountain, CO</div>
+            </div>
+            <div class="carousel-controls">
+                <div class="carousel-dot active" data-index="0"></div>
+                <div class="carousel-dot" data-index="1"></div>
+                <div class="carousel-dot" data-index="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Ready to Start Your Project?</h2>
+        <p>Get a free, no-obligation estimate. We'll assess your project and provide honest pricing — no pressure, no games.</p>
+        <a href="#book" class="btn btn-primary">Book Your Free Consultation</a>
+        <div class="cta-phone"><a href="tel:7197254350">📞 (719) 725-4350</a></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section bg-white" id="contact">
+        <div class="section-header">
+            <div class="section-tag">Get In Touch</div>
+            <h2>Contact Us</h2>
+            <p>Send us a message and we'll respond within 24 hours.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item"><div class="contact-item-icon">📞</div><div><h4>Phone</h4><a href="tel:7197254350">(719) 725-4350</a></div></div>
+                <div class="contact-item"><div class="contact-item-icon">📧</div><div><h4>Email</h4><a href="mailto:cagconstructiona@gmail.com">cagconstructiona@gmail.com</a></div></div>
+                <div class="contact-item"><div class="contact-item-icon">📍</div><div><h4>Service Area</h4><p>Colorado Springs, Fountain, Monument, Manitou Springs, Woodland Park & Surrounding Areas</p></div></div>
+                <div class="contact-item"><div class="contact-item-icon">🕐</div><div><h4>Hours</h4><p>Mon - Fri: 7:00 AM - 6:00 PM<br>Sat: 8:00 AM - 2:00 PM<br>Sun: Closed</p></div></div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="alert alert-success" id="contactSuccess"></div>
+                <div class="alert alert-error" id="contactError"></div>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="tel" name="phone" placeholder="Your Phone Number" required>
+                <select name="service">
+                    <option value="" disabled selected>Select a Service</option>
+                    <option value="Custom Decks">Custom Decks</option>
+                    <option value="Framing">Framing</option>
+                    <option value="Drywall">Drywall</option>
+                    <option value="Concrete">Concrete</option>
+                    <option value="Decorative Concrete">Decorative Concrete</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea name="message" placeholder="Tell us about your project..."></textarea>
+                <!-- Honeypot anti-spam field -->
+                <input type="text" name="company" class="honeypot" tabindex="-1" autocomplete="off">
+                <button type="submit" class="btn btn-primary" id="contactSubmit">Send Request →</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 CAG Construction LLC. All Rights Reserved. | Colorado Springs, CO |
+        <a href="/login.html">Customer Login</a> | <a href="#book">Book a Consultation</a></p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
