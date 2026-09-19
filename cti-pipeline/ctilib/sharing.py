@@ -2,15 +2,22 @@
 
 STIX is the language, TAXII is the transport. Handling designations (TLP) are
 applied *before* anything leaves the organization, which is what NIST SP 800-150
-asks for. The same TAXII helpers are used to pull the ATT&CK knowledge base and
-to pull or push indicator collections on any TAXII 2.1 server.
+asks for.
+
+The TAXII 2.1 client below is written with only the standard library. TAXII is
+just HTTPS + JSON with two special media types, so the whole protocol fits in a
+few dozen lines: discovery -> API roots -> collections -> objects (paged) and a
+POST of a bundle to add objects. The same helpers pull the ATT&CK knowledge base
+and pull or push indicator collections on any TAXII 2.1 server.
 """
 
+import base64
 import json
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 
 import stix2
-from taxii2client.v21 import Collection, Server, as_pages
 
 TLP = {
     "clear": stix2.v21.TLP_WHITE,   # STIX 2.1 still names TLP:CLEAR as "white"
@@ -73,21 +80,91 @@ def write_bundle(bundle, path):
     return path
 
 
-# ---- TAXII 2.1 -------------------------------------------------------------------------
+# ---- TAXII 2.1 (standard library only) ----------------------------------------------------
+
+TAXII_MEDIA_TYPE = "application/taxii+json;version=2.1"
+TIMEOUT_SECONDS = 60
+
+
+class TaxiiClient:
+    """Minimal HTTP helper: sets the TAXII headers and optional basic auth."""
+
+    def __init__(self, user=None, password=None):
+        self.headers = {"Accept": TAXII_MEDIA_TYPE}
+        if user:
+            token = base64.b64encode(f"{user}:{password or ''}".encode()).decode()
+            self.headers["Authorization"] = f"Basic {token}"
+
+    def get(self, url, params=None):
+        if params:
+            url = url + "?" + urllib.parse.urlencode({k: v for k, v in params.items() if v is not None})
+        request = urllib.request.Request(url, headers=self.headers)
+        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+            return json.load(response)
+
+    def post(self, url, body):
+        data = json.dumps(body).encode()
+        headers = dict(self.headers, **{"Content-Type": TAXII_MEDIA_TYPE})
+        request = urllib.request.Request(url, data=data, headers=headers, method="POST")
+        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+            return json.load(response)
+
+
+class TaxiiCollection:
+    """One collection on an API root: knows its URL and how to read or write objects."""
+
+    def __init__(self, client, api_root_url, info):
+        self.client = client
+        self.api_root_url = api_root_url
+        self.id = info["id"]
+        self.title = info.get("title", self.id)
+        self.can_read = bool(info.get("can_read"))
+        self.can_write = bool(info.get("can_write"))
+        self.url = urllib.parse.urljoin(api_root_url, f"collections/{self.id}/")
+
+    def get_objects(self, limit=None, added_after=None):
+        """Yield pages of objects, following TAXII's `more`/`next` pagination."""
+        params = {"limit": limit, "added_after": added_after}
+        while True:
+            page = self.client.get(self.url + "objects/", params)
+            yield page.get("objects", [])
+            if not page.get("more") or not page.get("next"):
+                return
+            params = {"limit": limit, "added_after": added_after, "next": page["next"]}
+
+    def add_objects(self, bundle):
+        """POST a STIX bundle. Returns the TAXII status resource as a dict."""
+        return self.client.post(self.url + "objects/", bundle)
+
+
+class TaxiiServer:
+    """Discovery endpoint (e.g. https://host/taxii2/) plus the API roots it advertises."""
+
+    def __init__(self, url, client):
+        self.url = url
+        self.client = client
+        info = client.get(url)
+        self.title = info.get("title", url)
+        self.api_roots = [urllib.parse.urljoin(url, root) for root in info.get("api_roots", [])]
+
+    def collections(self):
+        found = []
+        for api_root in self.api_roots:
+            for info in self.client.get(api_root + "collections/").get("collections", []):
+                found.append((TaxiiCollection(self.client, api_root, info), api_root))
+        return found
 
 
 def connect(server_url, user=None, password=None):
-    """Connect to a TAXII 2.1 server's discovery endpoint (e.g. https://host/taxii2/)."""
-    return Server(server_url, user=user, password=password)
+    """Connect to a TAXII 2.1 server's discovery endpoint."""
+    if not server_url.endswith("/"):
+        server_url += "/"
+    return TaxiiServer(server_url, TaxiiClient(user, password))
 
 
 def list_collections(server):
-    """[(collection object, api root url), ...] across every API root on the server."""
-    found = []
-    for api_root in server.api_roots:
-        for collection in api_root.collections:
-            found.append((collection, api_root.url))
-    return found
+    """[(TaxiiCollection, api root url), ...] across every API root on the server."""
+    return server.collections()
 
 
 def find_collection(server, title_contains):
@@ -99,21 +176,24 @@ def find_collection(server, title_contains):
 
 def open_collection(collection_url, user=None, password=None):
     """Open a collection directly by its URL (.../api-root/collections/<id>/)."""
-    return Collection(collection_url, user=user, password=password)
+    if not collection_url.endswith("/"):
+        collection_url += "/"
+    api_root_url, _, collection_id = collection_url.rstrip("/").rpartition("/")
+    api_root_url = api_root_url[: -len("collections")] if api_root_url.endswith("collections") else api_root_url + "/"
+    return TaxiiCollection(TaxiiClient(user, password), api_root_url, {"id": collection_id, "can_read": True, "can_write": True})
 
 
 def pull_collection(collection, per_page=1000, log=print, **filters):
     """Download every object in a collection, page by page. Returns a list of dicts."""
     objects = []
-    for page in as_pages(collection.get_objects, per_request=per_page, **filters):
-        objects.extend(page.get("objects", []))
+    for page in collection.get_objects(limit=per_page, **filters):
+        objects.extend(page)
         log(f"  ... {len(objects)} objects so far")
     return objects
 
 
 def push_bundle(collection, bundle):
-    """Upload a bundle to a writable collection. Returns the TAXII status object."""
+    """Upload a bundle to a writable collection. Returns the TAXII status dict."""
     if not collection.can_write:
         raise PermissionError(f"Collection '{collection.title}' is read-only")
-    status = collection.add_objects(bundle)
-    return status
+    return collection.add_objects(bundle)

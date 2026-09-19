@@ -1,9 +1,9 @@
 # PIR-driven Cyber Threat Intelligence Pipeline
 
-A Python project built on [mitreattack-python](https://github.com/mitre-attack/mitreattack-python),
-[stix2](https://github.com/oasis-open/cti-python-stix2) and
-[taxii2-client](https://github.com/oasis-open/cti-taxii-client) that walks the intelligence
-cycle end to end. It puts the three recommendations from my CNG 4010 paper into working code:
+A Python project built on [mitreattack-python](https://github.com/mitre-attack/mitreattack-python)
+and [stix2](https://github.com/oasis-open/cti-python-stix2) that walks the intelligence
+cycle end to end. The TAXII 2.1 client is written from scratch with the standard library
+(`ctilib/sharing.py`), so the protocol is visible in the code rather than hidden in a package. It puts the three recommendations from my CNG 4010 paper into working code:
 
 | Paper recommendation | Where it lives |
 |---|---|

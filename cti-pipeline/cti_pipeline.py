@@ -242,8 +242,8 @@ def step_sharing(req, processing, result):
                 print(f"    {i}) {coll.title}  {root}")
             pick = ask_int("Push to which collection?", 1)
             status = sharing.push_bundle(writable[pick - 1][0], bundle)
-            print(f"  TAXII status: {status.status} - {status.success_count} accepted, "
-                  f"{status.failure_count} failed, {status.pending_count} pending")
+            print(f"  TAXII status: {status.get('status')} - {status.get('success_count', 0)} accepted, "
+                  f"{status.get('failure_count', 0)} failed, {status.get('pending_count', 0)} pending")
         except Exception as exc:  # noqa: BLE001 - show the student what went wrong, keep outputs
             print(f"  Push failed: {exc.__class__.__name__}: {exc}")
             print(f"  The bundle is still saved at {path}.")
