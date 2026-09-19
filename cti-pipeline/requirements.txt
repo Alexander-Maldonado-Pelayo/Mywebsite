@@ -1,0 +1,5 @@
+mitreattack-python>=6.0
+stix2>=3.0
+taxii2-client>=2.3
+medallion>=3.0   # optional: local TAXII 2.1 server for the sharing demo
+pytest>=8.0      # optional: run the tests

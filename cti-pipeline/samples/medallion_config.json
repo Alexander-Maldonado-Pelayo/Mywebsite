@@ -1,0 +1,13 @@
+{
+  "backend": {
+    "module": "medallion.backends.memory_backend",
+    "module_class": "MemoryBackend",
+    "filename": "samples/taxii_server_data.json"
+  },
+  "users": {
+    "student": "password"
+  },
+  "taxii": {
+    "max_page_size": 100
+  }
+}

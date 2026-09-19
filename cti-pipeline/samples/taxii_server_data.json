@@ -1,0 +1,890 @@
+{
+  "/discovery": {
+    "title": "Demo sector ISAC TAXII server",
+    "description": "Local TAXII 2.1 server for the CTI pipeline demo (medallion).",
+    "default": "http://127.0.0.1:5555/sector-isac/",
+    "api_roots": [
+      "http://127.0.0.1:5555/sector-isac/"
+    ]
+  },
+  "sector-isac": {
+    "information": {
+      "title": "Sector ISAC sharing group",
+      "description": "Indicators and reports shared between members.",
+      "versions": [
+        "application/taxii+json;version=2.1"
+      ],
+      "max_content_length": 9765625
+    },
+    "status": [],
+    "collections": [
+      {
+        "id": "1c47c33d-fc62-514a-8e86-62e35217f43d",
+        "title": "Indicator feed",
+        "description": "Weekly indicator digest from the ISAC (read-only for members).",
+        "can_read": true,
+        "can_write": false,
+        "media_types": [
+          "application/stix+json;version=2.1"
+        ],
+        "manifest": [
+          {
+            "id": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "date_added": "2026-09-19T03:18:27.2462Z",
+            "version": "2026-09-19T03:18:27.2462Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--ca5886dc-83d9-429e-93aa-448f32e92a69",
+            "date_added": "2026-09-19T03:18:27.244232Z",
+            "version": "2026-09-19T03:18:27.244232Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--b1249374-1f97-4850-95b6-869ef62bc2e4",
+            "date_added": "2026-09-19T03:18:27.244921Z",
+            "version": "2026-09-19T03:18:27.244921Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe",
+            "date_added": "2026-09-19T03:18:27.245097Z",
+            "version": "2026-09-19T03:18:27.245097Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--01235183-795b-426b-b87d-a42a1968be91",
+            "date_added": "2026-09-19T03:18:27.245242Z",
+            "version": "2026-09-19T03:18:27.245242Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--e55567c8-1c62-43ae-9e96-78e15ddffd2f",
+            "date_added": "2026-09-19T03:18:27.245392Z",
+            "version": "2026-09-19T03:18:27.245392Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "attack-pattern--4554be14-b364-4118-8ba4-b0e3f3282a91",
+            "date_added": "2026-09-19T03:18:27.245578Z",
+            "version": "2026-09-19T03:18:27.245578Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "intrusion-set--a28919aa-3565-4589-9a40-4b0b506d4089",
+            "date_added": "2026-09-19T03:18:27.245729Z",
+            "version": "2026-09-19T03:18:27.245729Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "intrusion-set--acfdff7d-6c6a-44aa-a3f7-07c4ea354e19",
+            "date_added": "2026-09-19T03:18:27.2459Z",
+            "version": "2026-09-19T03:18:27.2459Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "intrusion-set--fae4457e-7a12-44da-9cfc-d860d57828f6",
+            "date_added": "2026-09-19T03:18:27.246054Z",
+            "version": "2026-09-19T03:18:27.246054Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--b1288f3e-423c-4bcb-bcc9-000869a6a3ac",
+            "date_added": "2026-09-16T03:18:27.000Z",
+            "version": "2026-09-16T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--f94ba2f3-ea00-4518-835a-b8e463a6cf01",
+            "date_added": "2026-09-19T03:18:27.252911Z",
+            "version": "2026-09-19T03:18:27.252911Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--f268ce4c-afea-4bd0-933b-49d41824c19e",
+            "date_added": "2026-09-19T03:18:27.253107Z",
+            "version": "2026-09-19T03:18:27.253107Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--fba0691a-f295-4a0a-971a-dad7b217b875",
+            "date_added": "2026-09-14T03:18:27.000Z",
+            "version": "2026-09-14T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--012d0b57-ecc5-42cd-a4bb-29483b8bb0ae",
+            "date_added": "2026-09-19T03:18:27.254862Z",
+            "version": "2026-09-19T03:18:27.254862Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--32f8a236-5bee-4fed-b67a-a8839887793e",
+            "date_added": "2026-09-19T03:18:27.255044Z",
+            "version": "2026-09-19T03:18:27.255044Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--7038c51f-7c7b-4383-93c2-45ab7aa9b98d",
+            "date_added": "2026-09-17T03:18:27.000Z",
+            "version": "2026-09-17T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--0b9f32e7-0ca1-4256-aac1-4429b9502a0f",
+            "date_added": "2026-09-19T03:18:27.256105Z",
+            "version": "2026-09-19T03:18:27.256105Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--10079d3e-908e-4bc0-91cd-1b44cdcaf486",
+            "date_added": "2026-09-19T03:18:27.256269Z",
+            "version": "2026-09-19T03:18:27.256269Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--ce04340a-91d7-46b9-b118-fd89b7726c9c",
+            "date_added": "2026-09-12T03:18:27.000Z",
+            "version": "2026-09-12T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--fb2a5144-411a-4040-8f55-b1c05996746d",
+            "date_added": "2026-09-19T03:18:27.257057Z",
+            "version": "2026-09-19T03:18:27.257057Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--daa14c73-5394-44ba-b3cb-aef28a5adfb9",
+            "date_added": "2026-09-19T03:18:27.257195Z",
+            "version": "2026-09-19T03:18:27.257195Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--ee1851cb-742b-40ee-8e91-09e104325e9f",
+            "date_added": "2026-09-18T03:18:27.000Z",
+            "version": "2026-09-18T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--3a9c4f81-d020-4fc4-90cb-d34f4612184e",
+            "date_added": "2026-09-19T03:18:27.258082Z",
+            "version": "2026-09-19T03:18:27.258082Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--398fc9b3-bc70-401a-93f9-16e627c42c35",
+            "date_added": "2026-09-19T03:18:27.258221Z",
+            "version": "2026-09-19T03:18:27.258221Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--5c87c31a-ca1e-44a9-8aad-f010bfadc247",
+            "date_added": "2026-09-15T03:18:27.000Z",
+            "version": "2026-09-15T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--7827643a-667a-4d0f-897d-aea74809951f",
+            "date_added": "2026-09-19T03:18:27.259057Z",
+            "version": "2026-09-19T03:18:27.259057Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--d6362da9-0f0e-480b-afcb-83915d10b4b9",
+            "date_added": "2026-09-19T03:18:27.259205Z",
+            "version": "2026-09-19T03:18:27.259205Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--2c13cf68-f2a1-42fe-8957-b8faec5a68df",
+            "date_added": "2026-03-03T03:18:27.000Z",
+            "version": "2026-03-03T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--ba8b9168-5600-44dd-a8a1-ad9b8ab992b8",
+            "date_added": "2026-09-19T03:18:27.259935Z",
+            "version": "2026-09-19T03:18:27.259935Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--16813b29-ccef-4ae1-950f-b382f1dfb7a4",
+            "date_added": "2026-04-22T03:18:27.000Z",
+            "version": "2026-04-22T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--798d5b35-e416-460d-a5e7-e8be5653e9ed",
+            "date_added": "2026-09-19T03:18:27.260665Z",
+            "version": "2026-09-19T03:18:27.260665Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--e527e43b-907a-4a90-9490-ec1e682959b5",
+            "date_added": "2025-08-15T03:18:27.000Z",
+            "version": "2025-08-15T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--1e4aee8b-d9b6-4678-80ca-f7e4afbc3883",
+            "date_added": "2026-09-19T03:18:27.261245Z",
+            "version": "2026-09-19T03:18:27.261245Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--fda8a415-c60d-4b62-a04d-667c9db3de5c",
+            "date_added": "2025-05-07T03:18:27.000Z",
+            "version": "2025-05-07T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--a512dfa0-cc0a-46c3-892a-cf7ed333208f",
+            "date_added": "2026-09-17T03:18:27.000Z",
+            "version": "2026-09-17T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--751a66fe-94ad-4ba3-a640-47dfd71af8b5",
+            "date_added": "2026-09-19T03:18:27.263064Z",
+            "version": "2026-09-19T03:18:27.263064Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--9831f252-b68d-42ba-868f-ba25f932214e",
+            "date_added": "2026-09-16T03:18:27.000Z",
+            "version": "2026-09-16T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--a0a40590-4d7b-4575-9350-56d358ebfa85",
+            "date_added": "2026-09-18T03:18:27.000Z",
+            "version": "2026-09-18T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "indicator--a9714439-0679-4b6c-b859-4fe7dfcf34bc",
+            "date_added": "2026-09-18T03:18:27.000Z",
+            "version": "2026-09-18T03:18:27.000Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "relationship--a727ac57-b8fa-4155-983c-c52f6b148f17",
+            "date_added": "2026-09-19T03:18:27.264671Z",
+            "version": "2026-09-19T03:18:27.264671Z",
+            "media_type": "application/stix+json;version=2.1"
+          },
+          {
+            "id": "report--47d1f0e5-d3ca-4898-8725-f87046586453",
+            "date_added": "2026-09-19T03:18:27.264877Z",
+            "version": "2026-09-19T03:18:27.264877Z",
+            "media_type": "application/stix+json;version=2.1"
+          }
+        ],
+        "objects": [
+          {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-19T03:18:27.2462Z",
+            "modified": "2026-09-19T03:18:27.2462Z",
+            "name": "Example Sector ISAC feed",
+            "identity_class": "organization"
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--ca5886dc-83d9-429e-93aa-448f32e92a69",
+            "created": "2026-09-19T03:18:27.244232Z",
+            "modified": "2026-09-19T03:18:27.244232Z",
+            "name": "Phishing: Spearphishing Attachment",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1566/001",
+                "external_id": "T1566.001"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--b1249374-1f97-4850-95b6-869ef62bc2e4",
+            "created": "2026-09-19T03:18:27.244921Z",
+            "modified": "2026-09-19T03:18:27.244921Z",
+            "name": "Command and Scripting Interpreter: PowerShell",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1059/001",
+                "external_id": "T1059.001"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe",
+            "created": "2026-09-19T03:18:27.245097Z",
+            "modified": "2026-09-19T03:18:27.245097Z",
+            "name": "Application Layer Protocol: Web Protocols",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1071/001",
+                "external_id": "T1071.001"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--01235183-795b-426b-b87d-a42a1968be91",
+            "created": "2026-09-19T03:18:27.245242Z",
+            "modified": "2026-09-19T03:18:27.245242Z",
+            "name": "Valid Accounts",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1078",
+                "external_id": "T1078"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--e55567c8-1c62-43ae-9e96-78e15ddffd2f",
+            "created": "2026-09-19T03:18:27.245392Z",
+            "modified": "2026-09-19T03:18:27.245392Z",
+            "name": "Ingress Tool Transfer",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1105",
+                "external_id": "T1105"
+              }
+            ]
+          },
+          {
+            "type": "attack-pattern",
+            "spec_version": "2.1",
+            "id": "attack-pattern--4554be14-b364-4118-8ba4-b0e3f3282a91",
+            "created": "2026-09-19T03:18:27.245578Z",
+            "modified": "2026-09-19T03:18:27.245578Z",
+            "name": "Obfuscated Files or Information",
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/techniques/T1027",
+                "external_id": "T1027"
+              }
+            ]
+          },
+          {
+            "type": "intrusion-set",
+            "spec_version": "2.1",
+            "id": "intrusion-set--a28919aa-3565-4589-9a40-4b0b506d4089",
+            "created": "2026-09-19T03:18:27.245729Z",
+            "modified": "2026-09-19T03:18:27.245729Z",
+            "name": "APT29",
+            "aliases": [
+              "Cozy Bear",
+              "Midnight Blizzard"
+            ],
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/groups/G0016",
+                "external_id": "G0016"
+              }
+            ]
+          },
+          {
+            "type": "intrusion-set",
+            "spec_version": "2.1",
+            "id": "intrusion-set--acfdff7d-6c6a-44aa-a3f7-07c4ea354e19",
+            "created": "2026-09-19T03:18:27.2459Z",
+            "modified": "2026-09-19T03:18:27.2459Z",
+            "name": "APT28",
+            "aliases": [
+              "Fancy Bear",
+              "Forest Blizzard"
+            ],
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/groups/G0007",
+                "external_id": "G0007"
+              }
+            ]
+          },
+          {
+            "type": "intrusion-set",
+            "spec_version": "2.1",
+            "id": "intrusion-set--fae4457e-7a12-44da-9cfc-d860d57828f6",
+            "created": "2026-09-19T03:18:27.246054Z",
+            "modified": "2026-09-19T03:18:27.246054Z",
+            "name": "Lazarus Group",
+            "aliases": [
+              "HIDDEN COBRA"
+            ],
+            "external_references": [
+              {
+                "source_name": "mitre-attack",
+                "url": "https://attack.mitre.org/groups/G0032",
+                "external_id": "G0032"
+              }
+            ]
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--b1288f3e-423c-4bcb-bcc9-000869a6a3ac",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-16T03:18:27.000Z",
+            "modified": "2026-09-16T03:18:27.000Z",
+            "pattern": "[file:hashes.'SHA-256' = '3f5d0d6e9a1c4b2e8c7a6f5d4e3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-16T03:18:27Z",
+            "valid_until": "2027-09-19T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 90
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f94ba2f3-ea00-4518-835a-b8e463a6cf01",
+            "created": "2026-09-19T03:18:27.252911Z",
+            "modified": "2026-09-19T03:18:27.252911Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--b1288f3e-423c-4bcb-bcc9-000869a6a3ac",
+            "target_ref": "attack-pattern--ca5886dc-83d9-429e-93aa-448f32e92a69"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--f268ce4c-afea-4bd0-933b-49d41824c19e",
+            "created": "2026-09-19T03:18:27.253107Z",
+            "modified": "2026-09-19T03:18:27.253107Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--b1288f3e-423c-4bcb-bcc9-000869a6a3ac",
+            "target_ref": "intrusion-set--a28919aa-3565-4589-9a40-4b0b506d4089"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--fba0691a-f295-4a0a-971a-dad7b217b875",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-14T03:18:27.000Z",
+            "modified": "2026-09-14T03:18:27.000Z",
+            "pattern": "[domain-name:value = 'update-portal-secure.example']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-14T03:18:27Z",
+            "valid_until": "2027-03-18T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 85
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--012d0b57-ecc5-42cd-a4bb-29483b8bb0ae",
+            "created": "2026-09-19T03:18:27.254862Z",
+            "modified": "2026-09-19T03:18:27.254862Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--fba0691a-f295-4a0a-971a-dad7b217b875",
+            "target_ref": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--32f8a236-5bee-4fed-b67a-a8839887793e",
+            "created": "2026-09-19T03:18:27.255044Z",
+            "modified": "2026-09-19T03:18:27.255044Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--fba0691a-f295-4a0a-971a-dad7b217b875",
+            "target_ref": "intrusion-set--a28919aa-3565-4589-9a40-4b0b506d4089"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--7038c51f-7c7b-4383-93c2-45ab7aa9b98d",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-17T03:18:27.000Z",
+            "modified": "2026-09-17T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '203.0.113.42']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-17T03:18:27Z",
+            "valid_until": "2026-10-19T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 80
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--0b9f32e7-0ca1-4256-aac1-4429b9502a0f",
+            "created": "2026-09-19T03:18:27.256105Z",
+            "modified": "2026-09-19T03:18:27.256105Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--7038c51f-7c7b-4383-93c2-45ab7aa9b98d",
+            "target_ref": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--10079d3e-908e-4bc0-91cd-1b44cdcaf486",
+            "created": "2026-09-19T03:18:27.256269Z",
+            "modified": "2026-09-19T03:18:27.256269Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--7038c51f-7c7b-4383-93c2-45ab7aa9b98d",
+            "target_ref": "intrusion-set--acfdff7d-6c6a-44aa-a3f7-07c4ea354e19"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--ce04340a-91d7-46b9-b118-fd89b7726c9c",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-12T03:18:27.000Z",
+            "modified": "2026-09-12T03:18:27.000Z",
+            "pattern": "[file:hashes.'SHA-256' = 'a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-12T03:18:27Z",
+            "valid_until": "2027-09-19T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 88
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--fb2a5144-411a-4040-8f55-b1c05996746d",
+            "created": "2026-09-19T03:18:27.257057Z",
+            "modified": "2026-09-19T03:18:27.257057Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--ce04340a-91d7-46b9-b118-fd89b7726c9c",
+            "target_ref": "attack-pattern--b1249374-1f97-4850-95b6-869ef62bc2e4"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--daa14c73-5394-44ba-b3cb-aef28a5adfb9",
+            "created": "2026-09-19T03:18:27.257195Z",
+            "modified": "2026-09-19T03:18:27.257195Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--ce04340a-91d7-46b9-b118-fd89b7726c9c",
+            "target_ref": "attack-pattern--4554be14-b364-4118-8ba4-b0e3f3282a91"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--ee1851cb-742b-40ee-8e91-09e104325e9f",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-18T03:18:27.000Z",
+            "modified": "2026-09-18T03:18:27.000Z",
+            "pattern": "[url:value = 'http://198.51.100.7/stage/agent.ps1']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-18T03:18:27Z",
+            "valid_until": "2026-11-18T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 75
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--3a9c4f81-d020-4fc4-90cb-d34f4612184e",
+            "created": "2026-09-19T03:18:27.258082Z",
+            "modified": "2026-09-19T03:18:27.258082Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--ee1851cb-742b-40ee-8e91-09e104325e9f",
+            "target_ref": "attack-pattern--e55567c8-1c62-43ae-9e96-78e15ddffd2f"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--398fc9b3-bc70-401a-93f9-16e627c42c35",
+            "created": "2026-09-19T03:18:27.258221Z",
+            "modified": "2026-09-19T03:18:27.258221Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--ee1851cb-742b-40ee-8e91-09e104325e9f",
+            "target_ref": "intrusion-set--fae4457e-7a12-44da-9cfc-d860d57828f6"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--5c87c31a-ca1e-44a9-8aad-f010bfadc247",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-15T03:18:27.000Z",
+            "modified": "2026-09-15T03:18:27.000Z",
+            "pattern": "[email-addr:value = 'hr-benefits@payroll-notice.example']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-15T03:18:27Z",
+            "valid_until": "2026-12-18T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 70
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--7827643a-667a-4d0f-897d-aea74809951f",
+            "created": "2026-09-19T03:18:27.259057Z",
+            "modified": "2026-09-19T03:18:27.259057Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--5c87c31a-ca1e-44a9-8aad-f010bfadc247",
+            "target_ref": "attack-pattern--ca5886dc-83d9-429e-93aa-448f32e92a69"
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--d6362da9-0f0e-480b-afcb-83915d10b4b9",
+            "created": "2026-09-19T03:18:27.259205Z",
+            "modified": "2026-09-19T03:18:27.259205Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--5c87c31a-ca1e-44a9-8aad-f010bfadc247",
+            "target_ref": "attack-pattern--01235183-795b-426b-b87d-a42a1968be91"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--2c13cf68-f2a1-42fe-8957-b8faec5a68df",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-03-03T03:18:27.000Z",
+            "modified": "2026-03-03T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '192.0.2.15']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-03-03T03:18:27Z",
+            "valid_until": "2026-07-21T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 90
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--ba8b9168-5600-44dd-a8a1-ad9b8ab992b8",
+            "created": "2026-09-19T03:18:27.259935Z",
+            "modified": "2026-09-19T03:18:27.259935Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--2c13cf68-f2a1-42fe-8957-b8faec5a68df",
+            "target_ref": "intrusion-set--acfdff7d-6c6a-44aa-a3f7-07c4ea354e19"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--16813b29-ccef-4ae1-950f-b382f1dfb7a4",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-04-22T03:18:27.000Z",
+            "modified": "2026-04-22T03:18:27.000Z",
+            "pattern": "[domain-name:value = 'old-c2.example']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-04-22T03:18:27Z",
+            "valid_until": "2026-09-09T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 85
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--798d5b35-e416-460d-a5e7-e8be5653e9ed",
+            "created": "2026-09-19T03:18:27.260665Z",
+            "modified": "2026-09-19T03:18:27.260665Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--16813b29-ccef-4ae1-950f-b382f1dfb7a4",
+            "target_ref": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--e527e43b-907a-4a90-9490-ec1e682959b5",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2025-08-15T03:18:27.000Z",
+            "modified": "2025-08-15T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '192.0.2.99']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2025-08-15T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 80
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--1e4aee8b-d9b6-4678-80ca-f7e4afbc3883",
+            "created": "2026-09-19T03:18:27.261245Z",
+            "modified": "2026-09-19T03:18:27.261245Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--e527e43b-907a-4a90-9490-ec1e682959b5",
+            "target_ref": "intrusion-set--a28919aa-3565-4589-9a40-4b0b506d4089"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--fda8a415-c60d-4b62-a04d-667c9db3de5c",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2025-05-07T03:18:27.000Z",
+            "modified": "2025-05-07T03:18:27.000Z",
+            "pattern": "[file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2025-05-07T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 70
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--a512dfa0-cc0a-46c3-892a-cf7ed333208f",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-17T03:18:27.000Z",
+            "modified": "2026-09-17T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '198.51.100.200']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-17T03:18:27Z",
+            "valid_until": "2026-10-19T03:18:27Z",
+            "labels": [
+              "anomalous-activity"
+            ],
+            "confidence": 25
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--751a66fe-94ad-4ba3-a640-47dfd71af8b5",
+            "created": "2026-09-19T03:18:27.263064Z",
+            "modified": "2026-09-19T03:18:27.263064Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--a512dfa0-cc0a-46c3-892a-cf7ed333208f",
+            "target_ref": "attack-pattern--aa7f951e-3e57-4008-82d8-5b457c3483fe"
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--9831f252-b68d-42ba-868f-ba25f932214e",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-16T03:18:27.000Z",
+            "modified": "2026-09-16T03:18:27.000Z",
+            "pattern": "[domain-name:value = 'cdn-static-assets.example']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-16T03:18:27Z",
+            "valid_until": "2026-10-19T03:18:27Z",
+            "labels": [
+              "anomalous-activity"
+            ],
+            "confidence": 60
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--a0a40590-4d7b-4575-9350-56d358ebfa85",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-18T03:18:27.000Z",
+            "modified": "2026-09-18T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '203.0.113.77']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-18T03:18:27Z",
+            "valid_until": "2026-10-19T03:18:27Z",
+            "labels": [
+              "anomalous-activity"
+            ]
+          },
+          {
+            "type": "indicator",
+            "spec_version": "2.1",
+            "id": "indicator--a9714439-0679-4b6c-b859-4fe7dfcf34bc",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-18T03:18:27.000Z",
+            "modified": "2026-09-18T03:18:27.000Z",
+            "pattern": "[ipv4-addr:value = '203.0.113.42']",
+            "pattern_type": "stix",
+            "pattern_version": "2.1",
+            "valid_from": "2026-09-18T03:18:27Z",
+            "valid_until": "2026-10-19T03:18:27Z",
+            "labels": [
+              "malicious-activity"
+            ],
+            "confidence": 80
+          },
+          {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a727ac57-b8fa-4155-983c-c52f6b148f17",
+            "created": "2026-09-19T03:18:27.264671Z",
+            "modified": "2026-09-19T03:18:27.264671Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--a9714439-0679-4b6c-b859-4fe7dfcf34bc",
+            "target_ref": "intrusion-set--acfdff7d-6c6a-44aa-a3f7-07c4ea354e19"
+          },
+          {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--47d1f0e5-d3ca-4898-8725-f87046586453",
+            "created_by_ref": "identity--843107c9-511b-4a5c-a660-b0ddda1c6c75",
+            "created": "2026-09-19T03:18:27.264877Z",
+            "modified": "2026-09-19T03:18:27.264877Z",
+            "name": "Weekly nation-state activity digest",
+            "report_types": [
+              "threat-report"
+            ],
+            "published": "2026-09-19T03:18:27Z",
+            "object_refs": [
+              "indicator--b1288f3e-423c-4bcb-bcc9-000869a6a3ac",
+              "indicator--fba0691a-f295-4a0a-971a-dad7b217b875",
+              "indicator--7038c51f-7c7b-4383-93c2-45ab7aa9b98d",
+              "indicator--ce04340a-91d7-46b9-b118-fd89b7726c9c",
+              "indicator--ee1851cb-742b-40ee-8e91-09e104325e9f",
+              "indicator--5c87c31a-ca1e-44a9-8aad-f010bfadc247",
+              "indicator--2c13cf68-f2a1-42fe-8957-b8faec5a68df",
+              "indicator--16813b29-ccef-4ae1-950f-b382f1dfb7a4",
+              "indicator--e527e43b-907a-4a90-9490-ec1e682959b5",
+              "indicator--fda8a415-c60d-4b62-a04d-667c9db3de5c",
+              "indicator--a512dfa0-cc0a-46c3-892a-cf7ed333208f",
+              "indicator--9831f252-b68d-42ba-868f-ba25f932214e",
+              "indicator--a0a40590-4d7b-4575-9350-56d358ebfa85",
+              "indicator--a9714439-0679-4b6c-b859-4fe7dfcf34bc"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "272c954b-bf37-5bca-9473-ef2d207b5924",
+        "title": "Member submissions",
+        "description": "Members push their own TLP-marked intelligence here.",
+        "can_read": true,
+        "can_write": true,
+        "media_types": [
+          "application/stix+json;version=2.1"
+        ],
+        "manifest": [],
+        "objects": []
+      }
+    ]
+  }
+}
